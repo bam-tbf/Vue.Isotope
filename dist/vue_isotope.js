@@ -142,10 +142,9 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         console.log('Updated');
         this.$nextTick(function () {
           var newChildren = [].concat(_toConsumableArray(_this3.$el.children));
-          var added = _.difference(newChildren, _this3._oldChidren);
-          var removed = _this3.removedIndex.map(function (index) {
-            return _this3.$el.children[index];
-          });
+          // force redo all for now
+          var added = newChildren;
+          var removed = _this3._oldChidren;
           console.log('Updated children, added & removed', newChildren, added, removed);
 
           _this3.cleanupNodes();

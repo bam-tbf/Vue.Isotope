@@ -129,8 +129,9 @@
           console.log('Updated');
           this.$nextTick(() => {
               const newChildren = [...this.$el.children]
-              const added = _.difference(newChildren, this._oldChidren)
-              const removed = this.removedIndex.map(index => this.$el.children[index])
+              // force redo all for now
+              const added = newChildren;
+              const removed = this._oldChidren;
               console.log('Updated children, added & removed', newChildren, added, removed);
 
               this.cleanupNodes()
