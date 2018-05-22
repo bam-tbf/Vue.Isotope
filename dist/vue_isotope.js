@@ -146,7 +146,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
           var removed = _this3.removedIndex.map(function (index) {
             return _this3.$el.children[index];
           });
-          console.log('Added & removed', added, removed);
+          console.log('Updated children, added & removed', newChildren, added, removed);
 
           _this3.cleanupNodes();
           _this3.link();
