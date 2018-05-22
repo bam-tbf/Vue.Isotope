@@ -131,7 +131,7 @@
               const newChildren = [...this.$el.children]
               const added = _.difference(newChildren, this._oldChidren)
               const removed = this.removedIndex.map(index => this.$el.children[index])
-              console.log('Added & removed', added, removed);
+              console.log('Updated children, added & removed', newChildren, added, removed);
 
               this.cleanupNodes()
               this.link()
