@@ -1,5 +1,7 @@
 "use strict";
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 (function () {
@@ -125,6 +127,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
           this._filterlistener();
         }
         this.iso = null;
+        console.log('Before destroy');
       },
       beforeUpdate: function beforeUpdate() {
         this._oldChidren = Array.prototype.slice.call(this.$el.children);
@@ -136,22 +139,26 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
           return;
         }
 
-        var newChildren = [].concat(_toConsumableArray(this.$el.children));
-        var added = _.difference(newChildren, this._oldChidren);
-        var removed = this.removedIndex.map(function (index) {
-          return _this3.$el.children[index];
+        console.log('Updated');
+        this.$nextTick(function () {
+          var newChildren = [].concat(_toConsumableArray(_this3.$el.children));
+          var added = _.difference(newChildren, _this3._oldChidren);
+          var removed = _this3.removedIndex.map(function (index) {
+            return _this3.$el.children[index];
+          });
+          console.log('Added & removed', added, removed);
+
+          _this3.cleanupNodes();
+          _this3.link();
+
+          if (!removed.length && !added.length) return;
+
+          _this3.listen();
+
+          _this3.iso.remove(removed);
+          _this3.iso.insert(added);
+          _this3.iso._requestUpdate();
         });
-
-        this.cleanupNodes();
-        this.link();
-
-        if (!removed.length && !added.length) return;
-
-        this.listen();
-
-        this.iso.remove(removed);
-        this.iso.insert(added);
-        this.iso._requestUpdate();
       },
 
 
@@ -226,6 +233,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
           }
           this.arrange(layout);
           this.$emit("layout", layout);
+          console.log('Layout');
         },
         arrange: function arrange(option) {
           this.iso.arrange(option);
@@ -262,7 +270,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     return isotopeComponent;
   }
 
-  if (typeof exports == "object") {
+  if ((typeof exports === "undefined" ? "undefined" : _typeof(exports)) == "object") {
     var _ = require("lodash"),
         Isotope = require("isotope-layout");
     module.exports = buildVueIsotope(_, Isotope);

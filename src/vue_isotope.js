@@ -114,6 +114,7 @@
           this._filterlistener()
         }
         this.iso = null
+        console.log('Before destroy');
       },
 
       beforeUpdate() {
@@ -125,21 +126,25 @@
           return;
         }
 
-        const newChildren = [...this.$el.children]
-        const added = _.difference(newChildren, this._oldChidren)
-        const removed = this.removedIndex.map(index => this.$el.children[index])
+          console.log('Updated');
+          this.$nextTick(() => {
+              const newChildren = [...this.$el.children]
+              const added = _.difference(newChildren, this._oldChidren)
+              const removed = this.removedIndex.map(index => this.$el.children[index])
+              console.log('Added & removed', added, removed);
 
-        this.cleanupNodes()
-        this.link()
+              this.cleanupNodes()
+              this.link()
 
-        if ((!removed.length) && (!added.length))
-          return;
+              if ((!removed.length) && (!added.length))
+                  return;
 
-        this.listen()
+              this.listen()
 
-        this.iso.remove(removed)
-        this.iso.insert(added)
-        this.iso._requestUpdate()
+              this.iso.remove(removed)
+              this.iso.insert(added)
+              this.iso._requestUpdate()
+          });
       },
 
       methods: {
@@ -203,6 +208,7 @@
           }
           this.arrange(layout)
           this.$emit("layout", layout)
+            console.log('Layout');
         },
 
         arrange(option) {
